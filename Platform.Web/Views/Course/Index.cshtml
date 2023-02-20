@@ -1,0 +1,60 @@
+﻿@model List<CourseVm>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+
+
+    <div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+            <h5 class="card-title">Courses</h5>  
+               <a asp-controller="Course" asp-action="Create" class="btn btn-primary mb-3">Create a course</a>
+                @if (Model.Any())
+                {
+           <table class="table table-striped table-hover table-bordered">
+                <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Course Name</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Duration</th>
+                    <th>Transaction</th>
+                </tr>
+                </thead>
+              <tbody>
+                  @foreach (var item in Model)
+                  {
+                         <tr>
+                      <td><img style="width:72px;" src="@item.StockPictureUrl" class="img-thumbnail" /></td>
+                      <td>@item.Name</td>
+                      <td>@item.Price</td>
+                      <td>@item.Category.Name</td>
+                      <td>@item.Feature.Duration</td>
+                      <td>
+                          <a asp-controller="Course" asp-action="Update" asp-route-id="@item.Id" class="btn btn-success btn-sm">Update</a>
+                           <a asp-controller="Course" asp-action="Delete" asp-route-id="@item.Id" asp-route-photo="@item.Picture" class="btn btn-danger btn-sm">Delete</a>
+                      </td>
+                   
+                  </tr>
+                  }
+               
+              </tbody>
+                    </table>
+                }
+                else
+                {
+                    <div class="alert alert-info">
+                        No course found
+                        </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+

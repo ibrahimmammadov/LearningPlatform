@@ -1,0 +1,10 @@
+Services
+  -Service.Catalog => "http://localhost:5011",
+  -PhotoStock => 5012 
+  -Basket => 5013
+  -Discount => 5014
+  -Order.Api =>5015
+  -Payment =>5016
+IdentityServer => 5001
+Gateway => 5000
+Platform.Web => 5010
