@@ -27,7 +27,7 @@ namespace Service.Order.Application.Handlers
             Domain.OrderAggregate.Order neworder = new Domain.OrderAggregate.Order(request.BuyerId,newaddress);
             request.OrderItems.ForEach(x =>
            {
-               neworder.AddOrderItem(x.ProductID, x.ProductName, x.Price, x.PicturetUrl);
+               neworder.AddOrderItem(x.ProductId, x.ProductName, x.Price, x.PictureUrl);
            });
             await _context.Orders.AddAsync(neworder);
             await _context.SaveChangesAsync();
