@@ -1,0 +1,17 @@
+[33mcommit 26bcd1ebc0b08ccaa93ad5e8a927cc9b111ebbb3[m[33m ([m[1;36mHEAD -> [m[1;32mTeam1[m[33m, [m[1;31morigin/Team1[m[33m)[m
+Author: Ibrahim Memmedov <Sapphire_1918@hotmail.com>
+Date:   Wed Feb 22 19:05:30 2023 +0400
+
+    Additional changes
+
+[33mcommit d38c59cf1e8b5e63e8813f5aaab4ea5ead3da01c[m[33m ([m[1;31morigin/master[m[33m, [m[1;32mmaster[m[33m)[m
+Author: Ibrahim Memmedov <Sapphire_1918@hotmail.com>
+Date:   Mon Feb 20 23:10:17 2023 +0400
+
+    Add project files.
+
+[33mcommit e67279f0f0566dcd7a7223a509b7e57ceb1d613d[m
+Author: Ibrahim Memmedov <Sapphire_1918@hotmail.com>
+Date:   Mon Feb 20 23:10:11 2023 +0400
+
+    Add .gitattributes, .gitignore, and README.md.
