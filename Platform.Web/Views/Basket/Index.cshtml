@@ -68,6 +68,7 @@
                             <input type="text" class="form-control" name="DiscountApplyInput.Code">
                             <button class="btn btn-outline-secondary" type="submit">Apply</button>
                         </div>
+                     
 
                         @if (TempData["discountStatus"] != null && (bool)TempData["discountStatus"] == false)
                         {
@@ -78,8 +79,8 @@
                             <div class="text-danger">@TempData["discountError"]</div>
                         }
                     </form>
-                   @* <a class="btn btn-success" asp-controller="Order" asp-action="Checkout">Ödeme bilgileri</a>
-                    <a class="btn btn-warning" asp-controller="Home" asp-action="Index">Kursları incelemeye devam et</a>*@
+                    <a class="btn btn-success" asp-controller="Order" asp-action="Checkout">Payment Information</a>
+                    <a class="btn btn-warning" asp-controller="Home" asp-action="Index">Keep exploring</a>
                 }
                 else
                 {

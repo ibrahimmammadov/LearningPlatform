@@ -1,3 +1,4 @@
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -18,6 +19,18 @@ builder.Services.AddControllers(opt => opt.Filters.Add(new AuthorizeFilter(requi
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//MassTransit
+builder.Services.AddMassTransit(x =>
+{
+    x.UsingRabbitMq((contex, cfg) =>
+    {
+        cfg.Host(builder.Configuration["RabbitMQUrl"], "/", host =>
+        {
+            host.Username("guest");
+            host.Password("guest");
+        });
+    });
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

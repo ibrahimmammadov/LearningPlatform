@@ -1,4 +1,6 @@
-﻿namespace Platform.Web.Models.Payment
+﻿using Platform.Web.Models.Orders;
+
+namespace Platform.Web.Models.Payment
 {
     public class PaymentInfoInput
     {
@@ -7,5 +9,6 @@
         public string Expiration { get; set; }
         public string CVV { get; set; }
         public decimal TotalPrice { get; set; }
+        public CreateOrderInput Order { get; set; }
     }
 }
