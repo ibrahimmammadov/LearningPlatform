@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Service.Order.Application.Consumers;
 using Service.Order.Infrastructure;
+using Shared.Messages;
 using Shared.Services;
 using System.IdentityModel.Tokens.Jwt;
 
@@ -35,6 +36,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddMassTransit(x =>
 {
     x.AddConsumer<CreateOrderMessageCommandConsumer>();
+    x.AddConsumer<CourseNameChangedEventConsumer>();
     x.UsingRabbitMq((contex, cfg) =>
     {
         cfg.Host(builder.Configuration["RabbitMQUrl"], "/", host =>
@@ -45,6 +47,10 @@ builder.Services.AddMassTransit(x =>
         cfg.ReceiveEndpoint("create-order-service", e =>
         {
             e.ConfigureConsumer<CreateOrderMessageCommandConsumer>(contex);
+        });
+        cfg.ReceiveEndpoint("course-nameChangedEvent-OrderService", e =>
+        {
+            e.ConfigureConsumer<CourseNameChangedEventConsumer>(contex);
         });
     });
 });

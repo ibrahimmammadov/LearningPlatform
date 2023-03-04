@@ -1,3 +1,4 @@
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Options;
@@ -25,6 +26,20 @@ builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("D
 builder.Services.AddSingleton<IDataBaseSettings>(sp => {
     return sp.GetRequiredService<IOptions<DatabaseSettings>>().Value;
     });
+
+//MassTransit
+builder.Services.AddMassTransit(x =>
+{
+    x.UsingRabbitMq((contex, cfg) =>
+    {
+        cfg.Host(builder.Configuration["RabbitMQUrl"], "/", host =>
+        {
+            host.Username("guest");
+            host.Password("guest");
+        });
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
