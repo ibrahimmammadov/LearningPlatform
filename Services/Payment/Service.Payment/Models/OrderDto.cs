@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Shared.Messages
+﻿namespace Service.Payment.Models
 {
-    public class CreateOrderMessageCommand
+    public class OrderDto
     {
-        public CreateOrderMessageCommand()
+        public OrderDto()
         {
-            OrderItems = new List<OrderItem>();
+            OrderItems = new List<OrdemItem>();
         }
         public string BuyerId { get; set; }
-        public List<OrderItem> OrderItems { get; set; }
-        public Address Address { get; set; }
+        public List<OrdemItem> OrderItems { get; set; }
+        public AddressDto Address { get; set; }
     }
 
-    public class OrderItem
+    public class OrdemItem
     {
         public string ProductId { get; set; }
         public string ProductName { get; set; }
@@ -23,7 +19,7 @@ namespace Shared.Messages
         public decimal Price { get; set; }
     }
 
-    public class Address
+    public class AddressDto
     {
         public string Province { get; set; }
         public string District { get; set; }

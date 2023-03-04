@@ -27,16 +27,32 @@ namespace Platform.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Checkout (CheckoutInfoInput checkoutInfoInput)
         {
-            var orderStatus = await _orderService.CreateOrder(checkoutInfoInput);
-            if (!orderStatus.IsSuccessful)
+            #region Synchron Call
+            //Synchron Call
+            // var orderStatus = await _orderService.CreateOrder(checkoutInfoInput);
+            //if (!orderStatus.IsSuccessful)
+            //{
+            //    var basket = await _basketService.Get();
+            //    ViewBag.basket = basket;
+            //    ViewBag.error = orderStatus.Error;
+            //    return View();
+            //}
+
+            //return RedirectToAction(nameof(SuccessfulCheckout), new { orderId = orderStatus.OrderId });
+            #endregion
+
+            //Async Call
+            var orderSuspend = await _orderService.SuspendOrder(checkoutInfoInput);
+
+            if (!orderSuspend.IsSuccessful)
             {
                 var basket = await _basketService.Get();
                 ViewBag.basket = basket;
-                ViewBag.error = orderStatus.Error;
+                ViewBag.error = orderSuspend.Error;
                 return View();
             }
 
-            return RedirectToAction(nameof(SuccessfulCheckout), new { orderId = orderStatus.OrderId });
+            return RedirectToAction(nameof(SuccessfulCheckout), new { orderId = new Random().Next(1,1000)});
         }
 
 
