@@ -1,7 +1,10 @@
+using MassTransit;
+using MassTransit.Configuration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Options;
+using Service.Basket.Consumers;
 using Service.Basket.Services;
 using Service.Basket.Settings;
 using Shared.Services;
@@ -20,6 +23,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 {
     opt.Authority = builder.Configuration["IdentityServerURL"];
     opt.Audience = "resource_basket";
+    opt.RequireHttpsMetadata = false;
+
 });
 builder.Services.Configure<RedisSettings>(builder.Configuration.GetSection("RedisSettings"));
 builder.Services.AddSingleton<RedisService>(sp =>
@@ -32,6 +37,23 @@ builder.Services.AddSingleton<RedisService>(sp =>
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ISharedIdentityService, SharedIdentityService>();
 builder.Services.AddScoped<IBasketService, BasketService>();
+
+//MassTransit
+builder.Services.AddMassTransit(x =>
+{
+    x.AddConsumer<BasketCourseNameChangedEventConsumer>().Endpoint(x => x.Name = "course-nameChangedEvent-basketService");
+    x.SetKebabCaseEndpointNameFormatter();
+    x.UsingRabbitMq((contex, cfg) =>
+    {
+        cfg.Host(builder.Configuration["RabbitMQUrl"], "/", host =>
+        {
+            host.Username("guest");
+            host.Password("guest");
+        });
+        cfg.ConfigureEndpoints(contex);
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -41,7 +63,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 

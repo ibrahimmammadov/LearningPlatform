@@ -35,8 +35,9 @@ builder.Services.AddHttpContextAccessor();
 //MassTransit
 builder.Services.AddMassTransit(x =>
 {
-    x.AddConsumer<CreateOrderMessageCommandConsumer>();
-    x.AddConsumer<CourseNameChangedEventConsumer>();
+    x.AddConsumer<CreateOrderMessageCommandConsumer>().Endpoint(X => X.Name = "create-order-service");
+    x.AddConsumer<CourseNameChangedEventConsumer>().Endpoint(X => X.Name = "course-nameChangedEvent-OrderService");
+    x.SetKebabCaseEndpointNameFormatter();
     x.UsingRabbitMq((contex, cfg) =>
     {
         cfg.Host(builder.Configuration["RabbitMQUrl"], "/", host =>
@@ -44,14 +45,7 @@ builder.Services.AddMassTransit(x =>
             host.Username("guest");
             host.Password("guest");
         });
-        cfg.ReceiveEndpoint("create-order-service", e =>
-        {
-            e.ConfigureConsumer<CreateOrderMessageCommandConsumer>(contex);
-        });
-        cfg.ReceiveEndpoint("course-nameChangedEvent-OrderService", e =>
-        {
-            e.ConfigureConsumer<CourseNameChangedEventConsumer>(contex);
-        });
+        cfg.ConfigureEndpoints(contex);
     });
 });
 var app = builder.Build();

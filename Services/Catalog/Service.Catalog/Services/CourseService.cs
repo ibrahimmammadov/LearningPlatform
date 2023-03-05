@@ -86,6 +86,7 @@ namespace Service.Catalog.Services
             }
             await _publishEndpoint.Publish<CourseNameChangedEvent>(new CourseNameChangedEvent
             {
+                UserId = courseUpdateDto.UserId,
                 CourseId = courseUpdateDto.Id,
                 UpdatedName = courseUpdateDto.Name
             });
