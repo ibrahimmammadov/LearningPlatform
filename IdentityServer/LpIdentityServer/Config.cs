@@ -4,6 +4,7 @@
 
 using IdentityServer4;
 using IdentityServer4.Models;
+using LpIdentityServer.Extensions;
 using System;
 using System.Collections.Generic;
 
@@ -68,13 +69,24 @@ namespace LpIdentityServer
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     ClientSecrets = { new Secret("baku".Sha256()) },
 
-                    AllowedScopes = {"basket_fullpermission","discount_fullpermission","order_fullpermission","payment_fullpermission","gateway_fullpermission",IdentityServerConstants.StandardScopes.Email,IdentityServerConstants.LocalApi.ScopeName,
+                    AllowedScopes = {"basket_fullpermission","order_fullpermission","gateway_fullpermission",IdentityServerConstants.StandardScopes.Email,IdentityServerConstants.LocalApi.ScopeName,
                       IdentityServerConstants.StandardScopes.OpenId,IdentityServerConstants.StandardScopes.Profile,
                       IdentityServerConstants.StandardScopes.OfflineAccess,"roles"},
                     AccessTokenLifetime = 1*60*60,
                     RefreshTokenExpiration =TokenExpiration.Absolute,
                     AbsoluteRefreshTokenLifetime =(int)(DateTime.Now.AddDays(60)-DateTime.Now).TotalSeconds,
                     RefreshTokenUsage = TokenUsage.ReUse
+                },
+
+                     new Client
+                {
+                    ClientName = "Token Exchange Client",
+                    ClientId = "TokenExchangeClient",
+
+                    AllowedGrantTypes = GrantTypesExtension.TokenExchangeClientCredentials,
+                    ClientSecrets = { new Secret("baku".Sha256()) },
+
+                    AllowedScopes = { "discount_fullpermission", "payment_fullpermission", IdentityServerConstants.StandardScopes.OpenId }
                 }
 
                 // interactive client using code flow + pkce

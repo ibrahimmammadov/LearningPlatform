@@ -1,4 +1,5 @@
 ﻿using IdentityServer4.Validation;
+using LpIdentityServer.Extensions;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,7 +8,7 @@ namespace LpIdentityServer.Services
 {
     public class TokenExchangeExtensionGrantValidator : IExtensionGrantValidator
     {
-        public string GrantType => "urn:ietf:params:oauth:grant-type:token-exchange";
+        public string GrantType => GrantTypesExtension.TokenExchangeClientCredentials.First();
         private readonly ITokenValidator _tokenValidator;
 
         public TokenExchangeExtensionGrantValidator(ITokenValidator tokenValidator)
@@ -18,7 +19,7 @@ namespace LpIdentityServer.Services
         public async Task ValidateAsync(ExtensionGrantValidationContext context)
         {
             var token = context.Request.Raw.Get("subject_token");
-            if (String.IsNullOrEmpty(token))
+            if (string.IsNullOrEmpty(token))
             {
                 context.Result = new GrantValidationResult(IdentityServer4.Models.TokenRequestErrors.InvalidRequest, "token missing");
                 return;

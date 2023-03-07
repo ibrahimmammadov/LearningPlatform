@@ -1,3 +1,4 @@
+using Gateway.DelegateHandlers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
@@ -18,8 +19,9 @@ builder.Host.ConfigureAppConfiguration((hostingContext, config) =>
 //    .AddJsonFile($"configuration.{hostingContext.HostingEnvironment.EnvironmentName}.json")
 //    .AddEnvironmentVariables();
 //});
+builder.Services.AddHttpClient<TokenExchangeDelgateHandler>();
 
-builder.Services.AddOcelot();
+builder.Services.AddOcelot().AddDelegatingHandler<TokenExchangeDelgateHandler>();
 builder.Services.AddAuthentication().AddJwtBearer("GatewayAuthenticationScheme", opt =>
 {
     opt.Authority = builder.Configuration["IdentityServerURL"];
